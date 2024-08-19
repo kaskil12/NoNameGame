@@ -22,6 +22,15 @@ public class Axe : MonoBehaviour
     {
         if(isEquiped)
         {
+            RaycastHit hit;
+            if(Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, range))
+            {
+                Debug.Log(hit.transform.name);
+                if(hit.transform.tag == "Mineable")
+                {
+                    GameObject.Find("Player").GetComponent<PlayerMovement>().Message("Mining " + hit.transform.name);                    
+                }
+            }
             if(Input.GetMouseButtonDown(0) && attackCooldown == 0)
             {
                 animator.SetTrigger("Attack");
@@ -55,8 +64,9 @@ public class Axe : MonoBehaviour
         if(Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, range))
         {
             Debug.Log(hit.transform.name);
-            if(hit.transform.tag == "Stone")
+            if(hit.transform.tag == "Mineable")
             {
+                GameObject.Find("Player").GetComponent<PlayerMovement>().Message("Mining " + hit.transform.name);
                 hit.transform.gameObject.SendMessage("TakeDamage", damage);
                 
             }

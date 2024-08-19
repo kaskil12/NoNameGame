@@ -120,6 +120,10 @@ public class PlayerMovement : MonoBehaviour
                 Inventory[i] = null;
                 item.transform.position = transform.position + transform.forward * 2;
                 item.SetActive(true);
+                if (item.GetComponent<Rigidbody>() != null)
+                {
+                    item.GetComponent<Rigidbody>().isKinematic = false;
+                }
                 item.GetComponent<Collider>().enabled = true;
                 ChangeItem(i);
                 break;
@@ -134,6 +138,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 Debug.Log("Picked up " + item.name);
                 Inventory[i] = item;
+                if(item.GetComponent<Rigidbody>() != null)
+                {
+                    item.GetComponent<Rigidbody>().isKinematic = true;
+                }
                 item.transform.position = R_Hand.transform.position;
                 item.transform.rotation = R_Hand.transform.rotation;
                 item.GetComponent<Collider>().enabled = false;
@@ -155,6 +163,9 @@ public class PlayerMovement : MonoBehaviour
             GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             Debug.Log("Jump");
         }
+    }
+    public void Message(string message){
+        ItemText.text = message;
     }
     public void CameraMovement()
     {
